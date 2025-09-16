@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿{
   "version": 2,
   "builds": [
@@ -24,3 +25,31 @@
     }
   ]
 }
+=======
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "api/extract.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/extract.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/$1"
+    }
+  ]
+}
+>>>>>>> efe69df0e06ddf4978c19a7b79576e0236478156
