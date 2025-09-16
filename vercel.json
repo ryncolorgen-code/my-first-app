@@ -9,14 +9,14 @@
       }
     },
     {
-      "src": "frontend/api/extract.py",
+      "src": "api/extract.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "frontend/api/extract.py"
+      "dest": "api/extract.py"
     },
     {
       "src": "/(.*)",
