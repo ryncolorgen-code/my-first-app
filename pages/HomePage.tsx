@@ -38,8 +38,8 @@ const HomePage: React.FC = () => {
             reader.onloadend = () => {
                 const img = new Image();
                 img.onload = () => {
-                    if (img.width > 1024 || img.height > 1024) {
-                         setError('Image dimensions should not exceed 1024x1024 pixels.');
+                    if (img.width > 512 || img.height > 512) {
+                         setError('Image dimensions should not exceed 512x512 pixels.');
                     } else {
                         setImageFile(file);
                         setImagePreview(reader.result as string);
