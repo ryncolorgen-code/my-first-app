@@ -1,9 +1,22 @@
 # api/extract.py
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
 app = FastAPI()
+
+origins = [
+    "https://my-first-app-eosin.vercel.app/", # Your Vercel frontend URL
+    "http://localhost:5173", # Your local Vite development server
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/extract")
 async def extract_colors(file: UploadFile = File(...)):
