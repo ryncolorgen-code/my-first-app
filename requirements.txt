@@ -4,3 +4,4 @@ pillow
 numpy
 scikit-image
 scikit-learn
+quantized
