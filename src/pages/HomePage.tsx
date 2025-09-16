@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import React, { useState, useCallback } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import { ColorInfo } from '../types';
-import { generatePaletteFromImage } from '../services/geminiService';
 import ColorSwatch from '../components/ColorSwatch';
 import SocialShare from '../components/SocialShare';
 import FAQItem from '../components/FAQItem';
