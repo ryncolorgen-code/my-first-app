@@ -1,5 +1,6 @@
-
+import React, { useEffect, useState } from 'react';
 import React, { useState, useCallback } from 'react';
+const apiUrl = import.meta.env.VITE_API_URL;
 import { ColorInfo } from '../types';
 import { generatePaletteFromImage } from '../services/geminiService';
 import ColorSwatch from '../components/ColorSwatch';
@@ -13,6 +14,34 @@ const HomePage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Replace with your actual API endpoint
+    const apiUrl = 'http://localhost:8000/api/extract'; 
+    
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setData(data);
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }, []); // The empty array ensures this runs only once
+
+  return (
+    <div>
+      {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : <p>Loading...</p>}
+    </div>
+  );
+    
+        
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
