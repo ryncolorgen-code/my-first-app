@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import ToolkitPage from './pages/ToolkitPage';
-import { AboutPage } from './pages/AboutPage';
+import AboutPage from './pages/AboutPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 
