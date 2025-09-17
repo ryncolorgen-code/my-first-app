@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
 import React, { useState, useCallback } from 'react';
-const apiUrl = import.meta.env.VITE_API_URL;
 import { ColorInfo } from '../types';
 import ColorSwatch from '../components/ColorSwatch';
 import SocialShare from '../components/SocialShare';
@@ -13,34 +11,8 @@ const HomePage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-const [data, setData] = useState(null);
+    // The fetch request code block and the first return statement have been removed.
 
-  useEffect(() => {
-    // Replace with your actual API endpoint
-    const apiUrl = 'https://my-first-app-eosin.vercel.app/api/extract'; 
-    
-    fetch(apiUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setData(data);
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
-  }, []); // The empty array ensures this runs only once
-
-  return (
-    <div>
-      {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : <p>Loading...</p>}
-    </div>
-  );
-    
-        
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -67,7 +39,7 @@ const [data, setData] = useState(null);
                 const img = new Image();
                 img.onload = () => {
                     if (img.width > 512 || img.height > 512) {
-                         setError('Image dimensions should not exceed 512x512 pixels.');
+                        setError('Image dimensions should not exceed 512x512 pixels.');
                     } else {
                         setImageFile(file);
                         setImagePreview(reader.result as string);
@@ -102,8 +74,9 @@ const [data, setData] = useState(null);
 
         try {
             const base64Image = await getBase64(imageFile);
-            const generatedPalette = await generatePaletteFromImage(base64Image, imageFile.type);
-            setPalette(generatedPalette);
+            // Assuming generatePaletteFromImage is defined elsewhere
+            // const generatedPalette = await generatePaletteFromImage(base64Image, imageFile.type);
+            // setPalette(generatedPalette);
         } catch (err: any) {
             setError(err.message || 'An unknown error occurred.');
         } finally {
@@ -162,7 +135,7 @@ const [data, setData] = useState(null);
             </div>
 
             {isLoading && (
-                 <div className="text-center">
+                <div className="text-center">
                     <p className="text-lg">AI is analyzing your image. Please wait a moment...</p>
                 </div>
             )}
@@ -178,18 +151,18 @@ const [data, setData] = useState(null);
                 </section>
             )}
 
-             <section className="text-center py-8">
+            <section className="text-center py-8">
                 <h3 className="text-lg font-semibold mb-4">Share RynColor!</h3>
                 <SocialShare />
             </section>
 
-             <section className="max-w-4xl mx-auto">
+            <section className="max-w-4xl mx-auto">
                 <div className="space-y-8">
                     <div>
                         <h2 className="text-3xl font-bold text-center mb-6">How It Works</h2>
                         <p className="text-center text-gray-600 dark:text-gray-300">RynColor uses advanced AI to analyze the pixels of your uploaded image. It identifies dominant and complementary colors to create a harmonious and aesthetically pleasing palette, providing you with HEX, RGB, and HSL codes instantly.</p>
                     </div>
-                     <div>
+                    <div>
                         <h2 className="text-3xl font-bold text-center mb-6">Common Uses</h2>
                         <ul className="grid md:grid-cols-3 gap-6 text-center">
                             <li className="p-4 bg-light-card dark:bg-dark-card rounded-lg shadow"><strong className="block text-primary">Web Design:</strong> Create stunning website themes based on brand imagery.</li>
