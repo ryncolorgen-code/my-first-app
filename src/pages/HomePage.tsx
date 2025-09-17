@@ -11,8 +11,6 @@ const HomePage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // The initial useEffect and data state have been removed because they were causing the "Loading..." screen to be permanently displayed.
-
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -71,10 +69,25 @@ const HomePage: React.FC = () => {
 
         try {
             const base64Image = await getBase64(imageFile);
-            // This is where you would call your backend to generate the palette
-            // const generatedPalette = await generatePaletteFromImage(base64Image, imageFile.type);
-            // setPalette(generatedPalette);
+            
+            // This is the corrected fetch API call to your backend
+            const response = await fetch('https://my-first-app-eosin.vercel.app/api/extract', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: base64Image, imageType: imageFile.type }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server responded with an error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            setPalette(data.palette);
+
         } catch (err: any) {
+            console.error('An error occurred while generating the palette:', err);
             setError(err.message || 'An unknown error occurred.');
         } finally {
             setIsLoading(false);
