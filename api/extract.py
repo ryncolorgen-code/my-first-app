@@ -1,13 +1,16 @@
 # api/extract.py
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from PIL import Image
+import base64
+import io
 
 app = FastAPI()
 
 origins = [
-    "https://my-first-app-eosin.vercel.app/", # Your Vercel frontend URL
+    "https://my-first-app-eosin.vercel.app", # Vercel URL without trailing slash
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -17,10 +20,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Define the data structure for the incoming JSON
+class ImageData(BaseModel):
+    image: str
+    imageType: str
+
 @app.post("/extract")
-async def extract_colors(file: UploadFile = File(...)):
+async def extract_colors(data: ImageData):
     try:
-        image = Image.open(file.file).convert("RGB")
+        # Decode the base64 string back into image data
+        image_data = base64.b64decode(data.image)
+        image = Image.open(io.BytesIO(image_data)).convert("RGB")
         
         # Resize and quantize the image to get a limited color palette
         quantized_image = image.quantize(colors=8, method=Image.Quantize.MEDIANCUT)
@@ -42,4 +52,4 @@ async def extract_colors(file: UploadFile = File(...)):
         return JSONResponse(content={"palette": palette})
     
     except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+        raise HTTPException(status_code=500, detail=str(e))
