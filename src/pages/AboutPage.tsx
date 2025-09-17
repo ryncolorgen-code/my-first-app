@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const AboutyPage: React.FC = () => {
+const AboutPage: React.FC = () => {
     return (
         <div className="max-w-3xl mx-auto bg-light-card dark:bg-dark-card p-8 rounded-lg shadow-lg">
             <h1 className="text-4xl font-extrabold text-light-text dark:text-dark-text mb-6">Privacy Policy</h1>
