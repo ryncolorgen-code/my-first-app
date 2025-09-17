@@ -17,7 +17,7 @@ const [data, setData] = useState(null);
 
   useEffect(() => {
     // Replace with your actual API endpoint
-    const apiUrl = 'http://localhost:8000/api/extract'; 
+    const apiUrl = 'https://my-first-app-eosin.vercel.app/api/extract'; 
     
     fetch(apiUrl)
       .then(response => {
