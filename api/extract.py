@@ -8,7 +8,6 @@ app = FastAPI()
 
 origins = [
     "https://my-first-app-eosin.vercel.app/", # Your Vercel frontend URL
-    "http://localhost:5173", # Your local Vite development server
 ]
 app.add_middleware(
     CORSMiddleware,
